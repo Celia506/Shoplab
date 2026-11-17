@@ -1,0 +1,5 @@
+.env
+snapshots/*.sql
+snapshots/*.dump
+!snapshots/.gitkeep
+app/node_modules/
