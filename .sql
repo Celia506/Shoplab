@@ -66,7 +66,7 @@ JOIN produits p ON p.id = lc.produit_id
 WHERE c.numero = 'CMD-2026-00007';
 -- le sous_total a une differnece de 5 euro avec le total - la livraison
 
--- A11
+-- A11. Clients qui n'ont jamais passé de commande.
 Select 
       cl.id, 
       cl.prenom, 
@@ -74,3 +74,24 @@ Select
 FROM clients cl 
 LEFT JOIN commandes c ON c.client_id = cl.id 
 Where c.id is NULL
+-- avec left join , je recupere tout les clients meme si il ny a pas de commande_id donc NULL,
+
+-- A12. Top 5 des produits les plus vendus en quantité, hors commandes annulées.
+SELECT 
+      p.nom,
+      p.reference,
+		SUM(lc.quantite) AS quantite_vendue
+FROM produits p 
+JOIN lignes_commande lc ON lc.produit_id = p.id
+JOIN commandes c ON c.id = lc.commande_id
+where c.statut <> 'ANNULEE'
+GROUP BY  p.id, p.nom , p.reference
+ORDER by quantite_vendue desc
+LIMIT 5
+
+
+-- A13. Chiffre d'affaires mensuel des commandes livrées.
+
+-- A14. Catégories dont le chiffre d'affaires (hors annulations) dépasse 1 000 EUR.
+
+-- A15. Pour chaque code promo : nombre d'utilisations et remise totale accordée (y compris les codes jamais utilisés).
