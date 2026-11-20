@@ -1,0 +1,45 @@
+
+
+### Étape 2 : inventaire et classification (15 min)
+
+Complétez le tableau pour **toutes** les colonnes des tables `clients`, `adresses`, `paiements` et `avis`.
+
+| Table.colonne | Donnée personnelle ? | Type (directe / indirecte / quasi-identifiant / sensible) | Risque (faible / moyen / élevé) | Technique retenue | Justification |
+|---------------|---------------------|------------------------------------------------------------|----------------------------------|-------------------|---------------|
+| clients.email | oui | directe | élevé | Substitution (Anonymisation) | Risque élevée car peut être utilisé pour usurpation d'identité et on la substitution pour créé une fausse adresse mail (ex: qa-exemple@mail.com)|
+| clients.mot_de_passe | oui | sensible | élevé | Hachage (Anonymisation) | Hachage car technique souvent utilisé pour les mdp |
+| clients.prenom et nom | oui | directe | élevé | Substitution (Pseudonymisation) | On inventerais des faux nom réaliste |
+| clients.telephone | oui | indirecte | moyen | Masquage (anonymisation) | modifié uniquement certain chiffre du numéro |
+| clients.date_de_naissance | oui | quasi-identifiant | moyen | Généralisation (anonymisation) | Réduire la précision de la date |
+| clients.date_d'inscription | non | indirecte | faible | / | C'est pas une donnée personnel donc on laisse comme ça |
+| adresses.libelle | oui | quasi-identifiant | moyen | Suppression (anonymisation) | Si libellé = "Domicile" c'est une donnée personnelle car elle est lié à l'adresse du client |
+| adresses.rue | oui | quasi-identifiant | moyen | Substitution (anonymisation)|  |
+| adresses.code_postal | oui | quasi-identifiant | moyen | Généralisation (anonymisation) | |
+| adresses.ville | oui | quasi-identifiant | moyen | Permutation (anonymisation) |  |
+| adresses.pays | oui | quasi-identifiant | moyen | Permutation (anonymisation) |  |
+| paiement.date | non | indirecte | faible |  | |
+| paiement.montant | non | indirecte | faible | | |
+| paiement.moyen | non | indirecte | faible | | |
+| paiement.statut | non | indirecte | faible | | |
+| paiement.carte_4_dernier | oui | sensible | moyen | Masquage (anonymisation) | On hésite avec élevé, mais vu qu'on ne voit que les 4 derniers chiffres, on a mis moyen |
+| avis.note | non | / | / | / | |
+| avis.commentaire | oui | indirecte | faible | Suppression (anonymisation) | |
+| avis.date_avis | non | / | / | / | |
+
+
+### Étape 4 : contrôles (10 min)
+
+Écrivez au moins 5 requêtes de contrôle qui prouvent le résultat, par exemple :
+
+- aucun e-mail d'origine ne subsiste (comment le vérifier sans les avoir gardés ?)
+- les volumes de chaque table sont inchangés
+- les dates de naissance sont toutes généralisées
+- aucune violation nouvelle des règles RG01 à RG12
+
+**Question 1.1** : relancez vos requêtes de contrôle de la partie B d'hier. Quelles anomalies ont **disparu** à cause de l'anonymisation ? Quelles conséquences pour la campagne ?
+
+- Même après avoir fait l'anonymisation on a constaté qu'aucune anomalie a disparu, ce qui permet de détecter les bugs toute en sécurisant les données. 
+
+**Question 1.2** : votre traitement est-il une anonymisation ou une pseudonymisation ? Justifiez avec les trois critères (individualisation, corrélation, inférence).
+
+- Voir tableau
